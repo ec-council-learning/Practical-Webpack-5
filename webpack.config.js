@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const { EsbuildPlugin } = require("esbuild-loader");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -72,6 +73,15 @@ module.exports = {
 
     new HtmlWebpackPlugin({ template: "./index.html" }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new EsbuildPlugin({
+        target: "es2022", // Syntax to transpile to (see options below for possible values)
+        css: true,
+      }),
+    ],
+  },
 };
 
 function miniCssExtractPlugin() {
